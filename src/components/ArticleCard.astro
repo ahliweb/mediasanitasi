@@ -1,0 +1,21 @@
+---
+const { article } = Astro.props;
+---
+
+<article class="card article-card">
+  <div class="pill">{article.pillar}</div>
+  <h3>
+    <a href={`/articles/${article.slug}`}>{article.title}</a>
+  </h3>
+  <p>{article.excerpt}</p>
+  <div class="article-meta">
+    <span>{article.category}</span>
+    <span>{article.readTime}</span>
+    <span>{article.date}</span>
+  </div>
+  <div class="tag-list">
+    {article.tags.map((tag) => (
+      <span class="tag" key={tag}>{tag}</span>
+    ))}
+  </div>
+</article>

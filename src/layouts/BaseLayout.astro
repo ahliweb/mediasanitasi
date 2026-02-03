@@ -1,0 +1,73 @@
+---
+import "../styles/global.css";
+import { pillars } from "../data/pillars";
+
+const {
+  title = "MediaSanitasi",
+  description =
+    "A community-powered hub for sanitation learning, policy news, innovation, and family practice.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="logo" href="/"><span>Media</span>Sanitasi</a>
+        <nav class="nav-pillars" aria-label="Main">
+          {pillars.map((pillar) => (
+            <a href={`/#${pillar.id}`}>{pillar.title}</a>
+          ))}
+        </nav>
+        <div class="nav-actions">
+          <a href="/search">Search</a>
+          <a href="/about">About</a>
+          <a class="btn secondary" href="/contact">Contribute</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h4>MediaSanitasi</h4>
+          <p>
+            A community-powered newsroom for sanitation learning, policy updates, and
+            practical family habits.
+          </p>
+        </div>
+        <div>
+          <h4>Editorial policy</h4>
+          <p>
+            We verify sources, cite official data, and publish corrections within 48 hours.
+          </p>
+          <p><a href="/about">Read our standards</a></p>
+        </div>
+        <div>
+          <h4>Get involved</h4>
+          <p>Share case studies, submit events, or pitch stories for your community.</p>
+          <p><a href="/contact">Open the contribution form</a></p>
+        </div>
+        <div>
+          <h4>Focus areas</h4>
+          <p>{pillars.map((pillar) => pillar.title).join(" | ")}</p>
+        </div>
+      </div>
+      <div class="container footer-note">
+        MediaSanitasi is an educational platform. Content is provided for public learning and
+        collaboration.
+      </div>
+    </footer>
+  </body>
+</html>

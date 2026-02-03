@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { articles } from "../../data/articles";
+
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const related = articles
+  .filter((item) => item.pillar === article.pillar && item.slug !== article.slug)
+  .slice(0, 2);
+---
+
+<BaseLayout title={`${article.title} | MediaSanitasi`} description={article.excerpt}>
+  <section class="article-page">
+    <div class="container">
+      <div class="article-hero">
+        <div class="pill">{article.pillar}</div>
+        <h1>{article.title}</h1>
+        <p>{article.excerpt}</p>
+        <div class="article-meta">
+          <span>{article.category}</span>
+          <span>{article.readTime}</span>
+          <span>{article.date}</span>
+          <span>By {article.author}</span>
+        </div>
+      </div>
+
+      <div class="article-layout">
+        <div>
+          {article.content.map((section) => (
+            <div class="article-section" key={section.heading}>
+              <h3>{section.heading}</h3>
+              <p>{section.body}</p>
+            </div>
+          ))}
+        </div>
+        <aside>
+          <h2>Quick facts</h2>
+          <div class="article-meta">
+            <span>Pillar: {article.pillar}</span>
+            <span>Category: {article.category}</span>
+            <span>Reading time: {article.readTime}</span>
+          </div>
+          <div style="margin-top: 16px;">
+            <p class="article-meta">Tags</p>
+            <div class="tag-list">
+              {article.tags.map((tag) => (
+                <span class="tag" key={tag}>{tag}</span>
+              ))}
+            </div>
+          </div>
+          <div style="margin-top: 20px;">
+            <a class="btn" href="/contact">Share a response</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Related reading</h2>
+        <p class="section-subtitle">
+          More insights from the {article.pillar} pillar.
+        </p>
+        <div class="grid two">
+          {related.map((item) => (
+            <ArticleCard article={item} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

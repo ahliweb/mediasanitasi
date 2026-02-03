@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { articles } from "../data/articles";
+import { pillars } from "../data/pillars";
+
+const featured = articles.filter((article) => article.featured).slice(0, 3);
+const latest = articles.slice(0, 6);
+const categories = Array.from(new Set(articles.map((article) => article.category)));
+const tags = Array.from(new Set(articles.flatMap((article) => article.tags))).slice(0, 12);
+const categoryDescriptions = {
+  "Learning Kit": "Step-by-step guides for classrooms, operators, and field teams.",
+  "Operations Training": "Practical drills to keep sanitation services reliable.",
+  "Policy Watch": "National and regional policy updates with quick analysis.",
+  "Regional Bulletin": "Spotlights on local sanitation upgrades and partnerships.",
+  "Tech Lab": "Innovation briefs covering sensors, data, and service platforms.",
+  "CSR Brief": "How private and public partners finance sanitation delivery.",
+  "Household Routine": "Daily habits to keep families safe and facilities clean.",
+  "Youth Practice": "Peer-to-peer programs and youth leadership toolkits.",
+};
+---
+
+<BaseLayout
+  title="MediaSanitasi | Home"
+  description="Learn sanitation, track policy updates, and explore technology and lifestyle practices."
+>
+  <section class="hero container">
+    <div>
+      <div class="pill">Sanitation learning hub</div>
+      <h1>Stories, policies, and practices for healthier communities.</h1>
+      <p>
+        MediaSanitasi curates step-by-step learning materials, policy updates, technology
+        innovations, and family routines that make sanitation real in daily life.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="#learn-sanitation">Start learning</a>
+        <a class="btn secondary" href="/search">Search updates</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h2 class="section-title">Today at a glance</h2>
+      <p>
+        Weekly learning paths, policy trackers, and community routines designed to help
+        sanitation leaders move faster.
+      </p>
+      <div class="grid two" style="margin-top: 20px;">
+        <div>
+          <div class="pill">New</div>
+          <p>Policy tracker on the 2026 national budget.</p>
+        </div>
+        <div>
+          <div class="pill">Tools</div>
+          <p>IoT sensor kits for septic monitoring.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pillars">
+    <div class="container">
+      <h2 class="section-title">Four pillars of MediaSanitasi</h2>
+      <p class="section-subtitle">
+        Each pillar gathers the best learning materials, policy updates, technology briefs,
+        and household practices to support sanitation teams and families.
+      </p>
+      <div class="grid two">
+        {pillars.map((pillar) => (
+          <article
+            class="card pillar-card"
+            id={pillar.id}
+            style={`--tone: ${pillar.accent}`}
+          >
+            <div class="pill">{pillar.title}</div>
+            <h3>{pillar.title}</h3>
+            <p>{pillar.summary}</p>
+            <ul>
+              {pillar.focus.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Featured field notes</h2>
+      <p class="section-subtitle">
+        Hand-picked stories, tools, and briefs that highlight the most useful sanitation
+        insights this week.
+      </p>
+      <div class="grid three">
+        {featured.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Latest updates</h2>
+      <p class="section-subtitle">
+        Fresh learning materials, policy alerts, and household routines curated across all
+        pillars.
+      </p>
+      <div class="grid three">
+        {latest.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Categories and tags</h2>
+      <p class="section-subtitle">
+        Navigate by category or tag to find exactly the materials you need.
+      </p>
+      <div class="grid three" style="margin-bottom: 32px;">
+        {categories.map((category) => (
+          <article class="card category-card" key={category}>
+            <div class="pill">Category</div>
+            <h3>{category}</h3>
+            <p>{categoryDescriptions[category] || "Curated sanitation resources."}</p>
+          </article>
+        ))}
+      </div>
+      <div class="tag-list">
+        {tags.map((tag) => (
+          <span class="tag" key={tag}>{tag}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card" style="display: grid; gap: 16px;">
+        <h2 class="section-title">Join the sanitation newsroom</h2>
+        <p class="section-subtitle" style="margin-bottom: 0;">
+          Contribute local stories, submit data, or volunteer to review learning materials.
+          We publish every week and welcome community partners.
+        </p>
+        <div>
+          <a class="btn" href="/contact">Share a contribution</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

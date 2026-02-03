@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SearchPanel from "../components/SearchPanel.jsx";
+import { articles } from "../data/articles";
+---
+
+<BaseLayout
+  title="Search | MediaSanitasi"
+  description="Search sanitation learning materials, policy updates, and technology briefs."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Search the sanitation library</h1>
+      <p>
+        Explore learning paths, policy briefs, innovations, and family routines. Filter by
+        pillar or tag to surface what matters most to your work.
+      </p>
+      <SearchPanel client:load articles={articles} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact & Contribute | MediaSanitasi"
+  description="Share a story, submit data, or reach the MediaSanitasi editorial team."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Contact & contribution</h1>
+      <p>
+        Send story ideas, local data, or partnership inquiries. Our editorial team reviews
+        submissions every week and responds within five business days.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid two">
+      <div class="form-card">
+        <form class="form-grid" method="post" action="/contact">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div>
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div>
+            <label for="organization">Organization</label>
+            <input id="organization" name="organization" type="text" />
+          </div>
+          <div>
+            <label for="location">Location</label>
+            <input id="location" name="location" type="text" placeholder="City, region" />
+          </div>
+          <div>
+            <label for="topic">Contribution type</label>
+            <select id="topic" name="topic">
+              <option value="story">Story pitch</option>
+              <option value="data">Data or report</option>
+              <option value="event">Event submission</option>
+              <option value="partnership">Partnership inquiry</option>
+            </select>
+          </div>
+          <div>
+            <label for="message">Your message</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Share context, data sources, and deadlines."
+            ></textarea>
+          </div>
+          <div>
+            <label>More details</label>
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" name="follow-up" />
+                Open to a follow-up interview
+              </label>
+              <label>
+                <input type="checkbox" name="public" />
+                Permission to publish with attribution
+              </label>
+              <label>
+                <input type="checkbox" name="anonymous" />
+                Request anonymous sourcing
+              </label>
+            </div>
+          </div>
+          <div>
+            <button class="btn" type="submit">Submit contribution</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Submission guidelines</h2>
+        <p>
+          We welcome grounded field notes, policy updates, or family practice stories.
+          Please include links to any supporting data or official documentation.
+        </p>
+        <div style="margin-top: 18px;">
+          <p class="article-meta">Editorial desk</p>
+          <p>editorial@mediasanitasi.org</p>
+          <p>Available Monday to Friday, 09:00 - 17:00 WIB</p>
+        </div>
+        <div style="margin-top: 18px;">
+          <p class="article-meta">Community partnerships</p>
+          <p>partners@mediasanitasi.org</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
