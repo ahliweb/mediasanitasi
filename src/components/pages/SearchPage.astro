@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SearchPanel from "../SearchPanel.jsx";
+import { getLocalizedArticles } from "../../data/articles";
+
+const { lang = "id" } = Astro.props;
+
+const copy = {
+  id: {
+    title: "Cari | MediaSanitasi",
+    description: "Cari materi belajar sanitasi, pembaruan kebijakan, dan ringkasan teknologi.",
+    heading: "Cari perpustakaan sanitasi",
+    body:
+      "Jelajahi jalur belajar, ringkasan kebijakan, inovasi, dan rutinitas keluarga. Saring berdasarkan pilar atau tag untuk menemukan yang paling penting bagi pekerjaan Anda.",
+    labels: {
+      searchPlaceholder: "Cari artikel, tag, dan pembaruan kebijakan",
+      searchAriaLabel: "Cari artikel",
+      clear: "Bersihkan",
+      filterPillar: "Saring berdasarkan pilar",
+      filterTag: "Saring berdasarkan tag",
+      allPillars: "Semua pilar",
+      allTags: "Semua tag",
+      resultsLabel: "hasil",
+      emptyState: "Belum ada hasil. Coba kata kunci lain atau atur ulang filter.",
+    },
+  },
+  en: {
+    title: "Search | MediaSanitasi",
+    description: "Search sanitation learning materials, policy updates, and technology briefs.",
+    heading: "Search the sanitation library",
+    body:
+      "Explore learning paths, policy briefs, innovations, and family routines. Filter by pillar or tag to surface what matters most to your work.",
+    labels: {
+      searchPlaceholder: "Search articles, tags, and policy updates",
+      searchAriaLabel: "Search articles",
+      clear: "Clear",
+      filterPillar: "Filter by pillar",
+      filterTag: "Filter by tag",
+      allPillars: "All pillars",
+      allTags: "All tags",
+      resultsLabel: "results",
+      emptyState: "No matches yet. Try a different term or reset the filters.",
+    },
+  },
+};
+
+const t = copy[lang];
+const localizedArticles = getLocalizedArticles(lang);
+---
+
+<BaseLayout title={t.title} description={t.description} lang={lang}>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{t.heading}</h1>
+      <p>{t.body}</p>
+      <SearchPanel client:load articles={localizedArticles} labels={t.labels} />
+    </div>
+  </section>
+</BaseLayout>

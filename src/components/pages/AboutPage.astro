@@ -1,0 +1,115 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const { lang = "id" } = Astro.props;
+
+const copy = {
+  id: {
+    title: "Tentang | MediaSanitasi",
+    description: "Pelajari tentang MediaSanitasi dan kebijakan editorial kami.",
+    heading: "Tentang MediaSanitasi",
+    intro:
+      "MediaSanitasi adalah ruang redaksi kolaboratif yang berfokus pada pembelajaran sanitasi, pembaruan kebijakan, inovasi, dan praktik keluarga. Kami menerbitkan sumber daya yang dapat diterapkan bagi praktisi, pendidik, dan rumah tangga.",
+    missionTitle: "Misi kami",
+    missionBody:
+      "Kami membuat pengetahuan sanitasi mudah diakses dengan menerjemahkan riset dan pengalaman lapangan menjadi sumber daya langkah demi langkah yang jelas. Fokus kami adalah implementasi praktis dan kesiapan komunitas.",
+    scopeTitle: "Cakupan liputan",
+    scopeBody:
+      "Dari ringkasan kebijakan hingga rutinitas keluarga, kami menghubungkan pengambil keputusan, operator, dan rumah tangga. Setiap cerita dipetakan ke salah satu dari empat pilar kami.",
+    policyTitle: "Kebijakan editorial",
+    policySubtitle:
+      "Standar editorial kami dirancang untuk menjaga akurasi, transparansi, dan kepercayaan komunitas.",
+    verificationTitle: "Verifikasi",
+    verificationBody:
+      "Kami menggunakan sumber primer, mengonfirmasi data dengan lembaga resmi, dan menerbitkan tautan ke dokumen pendukung bila memungkinkan.",
+    localTitle: "Suara lokal",
+    localBody:
+      "Mitra komunitas dan pekerja sanitasi meninjau draf untuk konteks. Kami memprioritaskan wawasan lokal dibanding ringkasan umum.",
+    correctionsTitle: "Koreksi",
+    correctionsBody:
+      "Koreksi diterbitkan dalam 48 jam dengan penjelasan jelas tentang perubahan dan alasannya.",
+    independenceTitle: "Independensi",
+    independenceBody:
+      "Konten bersponsor diberi label, pendanaan diungkap, dan keputusan editorial tetap independen dari mitra.",
+  },
+  en: {
+    title: "About | MediaSanitasi",
+    description: "Learn about MediaSanitasi and our editorial policy.",
+    heading: "About MediaSanitasi",
+    intro:
+      "MediaSanitasi is a collaborative newsroom dedicated to sanitation learning, policy updates, innovation, and family practice. We publish actionable resources for practitioners, educators, and households.",
+    missionTitle: "Our mission",
+    missionBody:
+      "We make sanitation knowledge accessible by translating research and field experience into clear, step-by-step resources. Our focus is on practical implementation and community readiness.",
+    scopeTitle: "What we cover",
+    scopeBody:
+      "From policy briefings to family routines, we connect the dots between decision-makers, operators, and households. Every story is mapped to one of our four pillars.",
+    policyTitle: "Editorial policy",
+    policySubtitle:
+      "Our editorial standards are designed to protect accuracy, transparency, and community trust.",
+    verificationTitle: "Verification",
+    verificationBody:
+      "We use primary sources, confirm data with official agencies, and publish a link to supporting documents whenever possible.",
+    localTitle: "Local voices",
+    localBody:
+      "Community partners and sanitation workers review drafts for context. We prioritize local insight over generic summaries.",
+    correctionsTitle: "Corrections",
+    correctionsBody:
+      "Corrections are published within 48 hours, with a clear explanation of what changed and why.",
+    independenceTitle: "Independence",
+    independenceBody:
+      "Sponsored content is labeled, funding is disclosed, and editorial decisions remain independent from partners.",
+  },
+};
+
+const t = copy[lang];
+---
+
+<BaseLayout title={t.title} description={t.description} lang={lang}>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{t.heading}</h1>
+      <p>{t.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid two">
+        <div class="card">
+          <h2 class="section-title">{t.missionTitle}</h2>
+          <p>{t.missionBody}</p>
+        </div>
+        <div class="card">
+          <h2 class="section-title">{t.scopeTitle}</h2>
+          <p>{t.scopeBody}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">{t.policyTitle}</h2>
+      <p class="section-subtitle">{t.policySubtitle}</p>
+      <div class="grid two">
+        <div class="card">
+          <h3>{t.verificationTitle}</h3>
+          <p>{t.verificationBody}</p>
+        </div>
+        <div class="card">
+          <h3>{t.localTitle}</h3>
+          <p>{t.localBody}</p>
+        </div>
+        <div class="card">
+          <h3>{t.correctionsTitle}</h3>
+          <p>{t.correctionsBody}</p>
+        </div>
+        <div class="card">
+          <h3>{t.independenceTitle}</h3>
+          <p>{t.independenceBody}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

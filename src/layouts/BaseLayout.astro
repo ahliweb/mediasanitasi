@@ -1,16 +1,70 @@
 ---
 import "../styles/global.css";
 import { pillars } from "../data/pillars";
+import { languages, stripBasePath, withBasePath } from "../data/i18n";
 
 const {
   title = "MediaSanitasi",
   description =
-    "A community-powered hub for sanitation learning, policy news, innovation, and family practice.",
+    "Ruang kolaborasi untuk pembelajaran sanitasi, berita kebijakan, inovasi, dan praktik keluarga.",
+  lang = "id",
 } = Astro.props;
+
+const activeLang = lang;
+const navCopy = {
+  id: {
+    ariaLabel: "Menu utama",
+    search: "Cari",
+    about: "Tentang",
+    contribute: "Kontribusi",
+    footerIntro:
+      "Ruang redaksi berbasis komunitas untuk pembelajaran sanitasi, pembaruan kebijakan, dan kebiasaan keluarga yang praktis.",
+    editorialTitle: "Kebijakan editorial",
+    editorialCopy:
+      "Kami memverifikasi sumber, mengutip data resmi, dan menerbitkan koreksi dalam 48 jam.",
+    editorialLink: "Baca standar kami",
+    getInvolved: "Terlibat",
+    getInvolvedCopy:
+      "Bagikan studi kasus, kirim acara, atau ajukan cerita untuk komunitas Anda.",
+    contributionLink: "Buka formulir kontribusi",
+    focusAreas: "Area fokus",
+    footerNote:
+      "MediaSanitasi adalah platform edukasi. Konten disediakan untuk pembelajaran dan kolaborasi publik.",
+    languageLabel: "Bahasa",
+  },
+  en: {
+    ariaLabel: "Main",
+    search: "Search",
+    about: "About",
+    contribute: "Contribute",
+    footerIntro:
+      "A community-powered newsroom for sanitation learning, policy updates, and practical family habits.",
+    editorialTitle: "Editorial policy",
+    editorialCopy:
+      "We verify sources, cite official data, and publish corrections within 48 hours.",
+    editorialLink: "Read our standards",
+    getInvolved: "Get involved",
+    getInvolvedCopy: "Share case studies, submit events, or pitch stories for your community.",
+    contributionLink: "Open the contribution form",
+    focusAreas: "Focus areas",
+    footerNote:
+      "MediaSanitasi is an educational platform. Content is provided for public learning and collaboration.",
+    languageLabel: "Language",
+  },
+};
+
+const copy = navCopy[activeLang];
+const localizedPillars = pillars.map((pillar) => ({
+  ...pillar,
+  title: pillar.title[activeLang],
+}));
+const currentPath = stripBasePath(Astro.url.pathname);
+const idHref = withBasePath(currentPath, "id");
+const enHref = withBasePath(currentPath, "en");
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={activeLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,16 +74,36 @@ const {
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="logo" href="/"><span>Media</span>Sanitasi</a>
-        <nav class="nav-pillars" aria-label="Main">
-          {pillars.map((pillar) => (
-            <a href={`/#${pillar.id}`}>{pillar.title}</a>
+        <a class="logo" href={withBasePath("/", activeLang)}><span>Media</span>Sanitasi</a>
+        <nav class="nav-pillars" aria-label={copy.ariaLabel}>
+          {localizedPillars.map((pillar) => (
+            <a href={withBasePath(`/#${pillar.id}`, activeLang)}>{pillar.title}</a>
           ))}
         </nav>
         <div class="nav-actions">
-          <a href="/search">Search</a>
-          <a href="/about">About</a>
-          <a class="btn secondary" href="/contact">Contribute</a>
+          <div class="lang-switcher" aria-label={copy.languageLabel}>
+            <span>{copy.languageLabel}</span>
+            <a
+              class={activeLang === "id" ? "active" : ""}
+              href={idHref}
+              title={languages.id.label}
+            >
+              {languages.id.short}
+            </a>
+            <span class="lang-separator">/</span>
+            <a
+              class={activeLang === "en" ? "active" : ""}
+              href={enHref}
+              title={languages.en.label}
+            >
+              {languages.en.short}
+            </a>
+          </div>
+          <a href={withBasePath("/search", activeLang)}>{copy.search}</a>
+          <a href={withBasePath("/about", activeLang)}>{copy.about}</a>
+          <a class="btn secondary" href={withBasePath("/contact", activeLang)}>
+            {copy.contribute}
+          </a>
         </div>
       </div>
     </header>
@@ -42,31 +116,25 @@ const {
       <div class="container footer-grid">
         <div>
           <h4>MediaSanitasi</h4>
-          <p>
-            A community-powered newsroom for sanitation learning, policy updates, and
-            practical family habits.
-          </p>
+          <p>{copy.footerIntro}</p>
         </div>
         <div>
-          <h4>Editorial policy</h4>
-          <p>
-            We verify sources, cite official data, and publish corrections within 48 hours.
-          </p>
-          <p><a href="/about">Read our standards</a></p>
+          <h4>{copy.editorialTitle}</h4>
+          <p>{copy.editorialCopy}</p>
+          <p><a href={withBasePath("/about", activeLang)}>{copy.editorialLink}</a></p>
         </div>
         <div>
-          <h4>Get involved</h4>
-          <p>Share case studies, submit events, or pitch stories for your community.</p>
-          <p><a href="/contact">Open the contribution form</a></p>
+          <h4>{copy.getInvolved}</h4>
+          <p>{copy.getInvolvedCopy}</p>
+          <p><a href={withBasePath("/contact", activeLang)}>{copy.contributionLink}</a></p>
         </div>
         <div>
-          <h4>Focus areas</h4>
-          <p>{pillars.map((pillar) => pillar.title).join(" | ")}</p>
+          <h4>{copy.focusAreas}</h4>
+          <p>{localizedPillars.map((pillar) => pillar.title).join(" | ")}</p>
         </div>
       </div>
       <div class="container footer-note">
-        MediaSanitasi is an educational platform. Content is provided for public learning and
-        collaboration.
+        {copy.footerNote}
       </div>
     </footer>
   </body>

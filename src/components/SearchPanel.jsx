@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 const normalize = (value) => value.toLowerCase();
 
-export default function SearchPanel({ articles }) {
+export default function SearchPanel({ articles, labels }) {
   const [query, setQuery] = useState("");
   const [activePillar, setActivePillar] = useState("all");
   const [activeTag, setActiveTag] = useState("all");
@@ -47,10 +47,10 @@ export default function SearchPanel({ articles }) {
       <div className="search-input">
         <input
           type="search"
-          placeholder="Search articles, tags, and policy updates"
+          placeholder={labels.searchPlaceholder}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          aria-label="Search articles"
+          aria-label={labels.searchAriaLabel}
         />
         <button
           className="btn"
@@ -58,19 +58,19 @@ export default function SearchPanel({ articles }) {
           onClick={() => setQuery("")}
           disabled={query.length === 0}
         >
-          Clear
+          {labels.clear}
         </button>
       </div>
 
       <div>
-        <p className="article-meta">Filter by pillar</p>
+        <p className="article-meta">{labels.filterPillar}</p>
         <div className="filter-row">
           <button
             type="button"
             className={`filter-btn ${activePillar === "all" ? "active" : ""}`}
             onClick={() => setActivePillar("all")}
           >
-            All pillars
+            {labels.allPillars}
           </button>
           {pillars.map((pillar) => (
             <button
@@ -86,14 +86,14 @@ export default function SearchPanel({ articles }) {
       </div>
 
       <div>
-        <p className="article-meta">Filter by tag</p>
+        <p className="article-meta">{labels.filterTag}</p>
         <div className="filter-row">
           <button
             type="button"
             className={`filter-btn ${activeTag === "all" ? "active" : ""}`}
             onClick={() => setActiveTag("all")}
           >
-            All tags
+            {labels.allTags}
           </button>
           {tags.map((tag) => (
             <button
@@ -109,17 +109,17 @@ export default function SearchPanel({ articles }) {
       </div>
 
       <p className="article-meta" aria-live="polite">
-        {results.length} results
+        {results.length} {labels.resultsLabel}
       </p>
 
       <div className="search-results">
         {results.length === 0 ? (
           <div className="empty-state">
-            No matches yet. Try a different term or reset the filters.
+            {labels.emptyState}
           </div>
         ) : (
           results.map((article) => (
-            <a key={article.slug} className="search-card" href={`/articles/${article.slug}`}>
+            <a key={article.slug} className="search-card" href={article.href}>
               <div className="article-meta">
                 <span className="pill">{article.pillar}</span>
                 <span>{article.category}</span>

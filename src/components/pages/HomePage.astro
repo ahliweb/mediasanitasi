@@ -1,0 +1,220 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../ArticleCard.astro";
+import { getLocalizedArticles } from "../../data/articles";
+import { pillars } from "../../data/pillars";
+import { categories } from "../../data/categories";
+import { withBasePath } from "../../data/i18n";
+
+const { lang = "id" } = Astro.props;
+
+const copy = {
+  id: {
+    title: "MediaSanitasi | Beranda",
+    description:
+      "Belajar sanitasi, pantau pembaruan kebijakan, dan jelajahi teknologi serta praktik gaya hidup.",
+    heroPill: "Pusat pembelajaran sanitasi",
+    heroTitle: "Cerita, kebijakan, dan praktik untuk komunitas yang lebih sehat.",
+    heroBody:
+      "MediaSanitasi mengkurasi materi belajar langkah demi langkah, pembaruan kebijakan, inovasi teknologi, dan rutinitas keluarga yang membuat sanitasi nyata dalam kehidupan sehari-hari.",
+    startLearning: "Mulai belajar",
+    searchUpdates: "Cari pembaruan",
+    glanceTitle: "Sorotan hari ini",
+    glanceBody:
+      "Jalur belajar mingguan, pelacak kebijakan, dan rutinitas komunitas dirancang untuk membantu pemimpin sanitasi bergerak lebih cepat.",
+    newLabel: "Baru",
+    newText: "Pelacak kebijakan untuk anggaran nasional 2026.",
+    toolsLabel: "Alat",
+    toolsText: "Paket sensor IoT untuk pemantauan septik.",
+    pillarsTitle: "Empat pilar MediaSanitasi",
+    pillarsSubtitle:
+      "Setiap pilar mengumpulkan materi belajar terbaik, pembaruan kebijakan, ringkasan teknologi, dan praktik rumah tangga untuk mendukung tim sanitasi dan keluarga.",
+    featuredTitle: "Sorotan catatan lapangan",
+    featuredSubtitle:
+      "Cerita, alat, dan ringkasan pilihan yang menonjolkan wawasan sanitasi paling berguna minggu ini.",
+    latestTitle: "Pembaruan terbaru",
+    latestSubtitle:
+      "Materi belajar terbaru, peringatan kebijakan, dan rutinitas rumah tangga yang dikurasi di semua pilar.",
+    categoriesTitle: "Kategori dan tag",
+    categoriesSubtitle: "Telusuri berdasarkan kategori atau tag untuk menemukan materi yang Anda butuhkan.",
+    categoryLabel: "Kategori",
+    categoryFallback: "Sumber daya sanitasi terkurasi.",
+    joinTitle: "Bergabung dengan ruang redaksi sanitasi",
+    joinBody:
+      "Bagikan cerita lokal, kirim data, atau jadi relawan peninjau materi belajar. Kami menerbitkan setiap minggu dan menyambut mitra komunitas.",
+    joinButton: "Kirim kontribusi",
+  },
+  en: {
+    title: "MediaSanitasi | Home",
+    description:
+      "Learn sanitation, track policy updates, and explore technology and lifestyle practices.",
+    heroPill: "Sanitation learning hub",
+    heroTitle: "Stories, policies, and practices for healthier communities.",
+    heroBody:
+      "MediaSanitasi curates step-by-step learning materials, policy updates, technology innovations, and family routines that make sanitation real in daily life.",
+    startLearning: "Start learning",
+    searchUpdates: "Search updates",
+    glanceTitle: "Today at a glance",
+    glanceBody:
+      "Weekly learning paths, policy trackers, and community routines designed to help sanitation leaders move faster.",
+    newLabel: "New",
+    newText: "Policy tracker on the 2026 national budget.",
+    toolsLabel: "Tools",
+    toolsText: "IoT sensor kits for septic monitoring.",
+    pillarsTitle: "Four pillars of MediaSanitasi",
+    pillarsSubtitle:
+      "Each pillar gathers the best learning materials, policy updates, technology briefs, and household practices to support sanitation teams and families.",
+    featuredTitle: "Featured field notes",
+    featuredSubtitle:
+      "Hand-picked stories, tools, and briefs that highlight the most useful sanitation insights this week.",
+    latestTitle: "Latest updates",
+    latestSubtitle:
+      "Fresh learning materials, policy alerts, and household routines curated across all pillars.",
+    categoriesTitle: "Categories and tags",
+    categoriesSubtitle: "Navigate by category or tag to find exactly the materials you need.",
+    categoryLabel: "Category",
+    categoryFallback: "Curated sanitation resources.",
+    joinTitle: "Join the sanitation newsroom",
+    joinBody:
+      "Contribute local stories, submit data, or volunteer to review learning materials. We publish every week and welcome community partners.",
+    joinButton: "Share a contribution",
+  },
+};
+
+const t = copy[lang];
+const localizedArticles = getLocalizedArticles(lang);
+const featured = localizedArticles.filter((article) => article.featured).slice(0, 3);
+const latest = localizedArticles.slice(0, 6);
+const localizedPillars = pillars.map((pillar) => ({
+  ...pillar,
+  title: pillar.title[lang],
+  summary: pillar.summary[lang],
+  focus: pillar.focus[lang],
+}));
+const localizedCategories = categories.map((category) => ({
+  ...category,
+  label: category.label[lang],
+  description: category.description[lang],
+}));
+const tags = Array.from(
+  new Set(localizedArticles.flatMap((article) => article.tags))
+).slice(0, 12);
+---
+
+<BaseLayout title={t.title} description={t.description} lang={lang}>
+  <section class="hero container">
+    <div>
+      <div class="pill">{t.heroPill}</div>
+      <h1>{t.heroTitle}</h1>
+      <p>{t.heroBody}</p>
+      <div class="hero-actions">
+        <a class="btn" href={withBasePath("/#learn-sanitation", lang)}>
+          {t.startLearning}
+        </a>
+        <a class="btn secondary" href={withBasePath("/search", lang)}>
+          {t.searchUpdates}
+        </a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h2 class="section-title">{t.glanceTitle}</h2>
+      <p>{t.glanceBody}</p>
+      <div class="grid two" style="margin-top: 20px;">
+        <div>
+          <div class="pill">{t.newLabel}</div>
+          <p>{t.newText}</p>
+        </div>
+        <div>
+          <div class="pill">{t.toolsLabel}</div>
+          <p>{t.toolsText}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pillars">
+    <div class="container">
+      <h2 class="section-title">{t.pillarsTitle}</h2>
+      <p class="section-subtitle">{t.pillarsSubtitle}</p>
+      <div class="grid two">
+        {localizedPillars.map((pillar) => (
+          <article
+            class="card pillar-card"
+            id={pillar.id}
+            style={`--tone: ${pillar.accent}`}
+          >
+            <div class="pill">{pillar.title}</div>
+            <h3>{pillar.title}</h3>
+            <p>{pillar.summary}</p>
+            <ul>
+              {pillar.focus.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">{t.featuredTitle}</h2>
+      <p class="section-subtitle">{t.featuredSubtitle}</p>
+      <div class="grid three">
+        {featured.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">{t.latestTitle}</h2>
+      <p class="section-subtitle">{t.latestSubtitle}</p>
+      <div class="grid three">
+        {latest.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">{t.categoriesTitle}</h2>
+      <p class="section-subtitle">{t.categoriesSubtitle}</p>
+      <div class="grid three" style="margin-bottom: 32px;">
+        {localizedCategories.map((category) => (
+          <article class="card category-card" key={category.id}>
+            <div class="pill">{t.categoryLabel}</div>
+            <h3>{category.label}</h3>
+            <p>{category.description || t.categoryFallback}</p>
+          </article>
+        ))}
+      </div>
+      <div class="tag-list">
+        {tags.map((tag) => (
+          <span class="tag" key={tag}>{tag}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card" style="display: grid; gap: 16px;">
+        <h2 class="section-title">{t.joinTitle}</h2>
+        <p class="section-subtitle" style="margin-bottom: 0;">
+          {t.joinBody}
+        </p>
+        <div>
+          <a class="btn" href={withBasePath("/contact", lang)}>
+            {t.joinButton}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
